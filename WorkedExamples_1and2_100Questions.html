@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worked Examples 1 &amp; 2 — 100 practice questions</title>
+<style>
+:root{
+  --gold:#c9a96e; --gold-deep:#8d6f34; --gold-soft:#f6eeda; --gold-line:#e3d2ab;
+  --paper:#fbf7ef; --card:#fffdf8; --card-2:#faf5ea; --line:#e4dac6; --line-2:#efe7d6;
+  --ink:#2b2a26; --ink-2:#4b4840; --ink-3:#7a7466;
+  --navy:#1c3454; --navy-2:#2f4d74; --navy-soft:#e8edf4;
+  --slate:#42627f; --slate-soft:#e5edf2;
+  --sage:#4e7154; --sage-soft:#e7efe6; --rose:#8e4a45; --rose-soft:#f5e6e3;
+  --clay:#a2683c; --clay-soft:#f6e9dc;
+  --serif:'Cormorant Garamond','Times New Roman','DejaVu Serif',Georgia,serif;
+  --sans:'DM Sans','Helvetica Neue',Arial,'DejaVu Sans',sans-serif;
+  --mono:'DM Mono','SFMono-Regular',Consolas,'Liberation Mono',monospace;
+  --shadow:0 1px 2px rgba(60,48,20,.05),0 3px 12px rgba(60,48,20,.06);
+  --shadow-lg:0 3px 8px rgba(60,48,20,.08),0 12px 34px rgba(60,48,20,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper); color:var(--ink); font-family:var(--sans);
+     font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased}
+.wrap{max-width:1020px; margin:0 auto; padding:32px 20px 80px}
+
+.kick{font-size:10px; letter-spacing:.19em; text-transform:uppercase; font-weight:700;
+      color:var(--gold-deep); margin-bottom:9px}
+h1{font-family:var(--serif); font-size:44px; line-height:1.07; font-weight:700;
+   color:var(--navy); margin:0 0 12px; letter-spacing:-.01em}
+.lead{font-size:15.4px; color:var(--ink-2); max-width:76ch; margin:0 0 22px}
+.lead b{color:var(--navy)}
+
+/* -------------------------------------------------- tabs + scoreboard */
+.tabs{display:flex; gap:9px; flex-wrap:wrap; margin-bottom:16px}
+.tab{font-family:var(--sans); font-size:13.4px; font-weight:600; color:var(--ink-2);
+     background:var(--card); border:1.5px solid var(--line); border-radius:11px;
+     padding:11px 17px; cursor:pointer; transition:all .13s ease; text-align:left; line-height:1.3}
+.tab small{display:block; font-weight:400; font-size:11.4px; color:var(--ink-3); margin-top:2px}
+.tab:hover{border-color:var(--gold); background:var(--gold-soft)}
+.tab.on{background:var(--navy); border-color:var(--navy); color:#fffdf8}
+.tab.on small{color:#c3cfdf}
+
+.board{background:var(--card); border:1px solid var(--line); border-radius:14px;
+       padding:15px 18px; box-shadow:var(--shadow); margin-bottom:16px;
+       display:flex; gap:22px; align-items:center; flex-wrap:wrap}
+.board .sc{font-family:var(--serif); font-size:31px; font-weight:700; color:var(--navy); line-height:1}
+.board .scl{font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3); font-weight:700; margin-top:3px}
+.board .barwrap{flex:1 1 220px; min-width:180px}
+.bar{height:7px; background:var(--line-2); border-radius:99px; overflow:hidden}
+.bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--gold),var(--gold-deep)); transition:width .3s ease}
+.board .btns{display:flex; gap:8px; flex-wrap:wrap; margin-left:auto}
+.btn{font-family:var(--sans); font-size:12.4px; font-weight:600; color:var(--ink-2);
+     background:var(--card); border:1px solid var(--line); border-radius:9px;
+     padding:8px 14px; cursor:pointer; transition:all .13s ease}
+.btn:hover{border-color:var(--gold); color:var(--gold-deep)}
+.btn.on{background:var(--navy); border-color:var(--navy); color:#fffdf8}
+
+.filters{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:18px}
+.chip{font-family:var(--sans); font-size:11.8px; font-weight:600; color:var(--ink-2);
+      background:var(--card); border:1px solid var(--line); border-radius:99px;
+      padding:6px 13px; cursor:pointer; transition:all .13s ease}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--gold-soft); border-color:var(--gold); color:var(--gold-deep)}
+.chip b{font-weight:700}
+
+/* -------------------------------------------------- questions */
+.q{background:var(--card); border:1px solid var(--line); border-radius:14px;
+   padding:18px 20px 19px; box-shadow:var(--shadow); margin-bottom:13px}
+.q.hide{display:none}
+.qh{display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap}
+.qn{font-family:var(--mono); font-size:10.6px; color:var(--ink-3); letter-spacing:.06em}
+.qt{font-size:10px; letter-spacing:.11em; text-transform:uppercase; font-weight:700;
+    color:var(--gold-deep); background:var(--gold-soft); border:1px solid var(--gold-line);
+    border-radius:99px; padding:3px 10px}
+.qq{font-size:15.2px; color:var(--ink); line-height:1.55; margin-bottom:13px; font-weight:500}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{display:flex; gap:11px; align-items:flex-start; text-align:left; width:100%;
+     font-family:var(--sans); font-size:14px; color:var(--ink-2); line-height:1.5;
+     background:var(--paper); border:1.5px solid var(--line); border-radius:10px;
+     padding:11px 14px; cursor:pointer; transition:all .12s ease}
+.opt:hover:not(:disabled){border-color:var(--gold); background:var(--gold-soft)}
+.opt:disabled{cursor:default}
+.opt .ol{font-family:var(--mono); font-size:11.4px; font-weight:700; color:var(--ink-3);
+         border:1px solid var(--line); border-radius:6px; min-width:22px; height:22px;
+         display:grid; place-items:center; flex:none; background:var(--card)}
+.opt.correct{background:var(--sage-soft); border-color:var(--sage); color:#23331f}
+.opt.correct .ol{background:var(--sage); border-color:var(--sage); color:#fff}
+.opt.wrong{background:var(--rose-soft); border-color:var(--rose); color:#43201d}
+.opt.wrong .ol{background:var(--rose); border-color:var(--rose); color:#fff}
+.expl{display:none; margin-top:13px; padding:13px 15px; border-radius:11px;
+      background:var(--navy-soft); border:1px solid #c3cfdf; border-left:4px solid var(--navy);
+      font-size:13.6px; line-height:1.62; color:#22323f}
+.expl.show{display:block}
+.expl b{color:var(--navy)}
+.expl .el{font-size:9.6px; letter-spacing:.14em; text-transform:uppercase; font-weight:700;
+          color:var(--navy); margin-bottom:6px}
+
+.note{background:var(--clay-soft); border:1px solid #e0c3a3; border-left:5px solid var(--clay);
+      border-radius:13px; padding:15px 18px; margin:22px 0; color:#463322}
+.note .nt{font-size:13px; font-weight:700; color:#8a5528; margin-bottom:7px}
+.note p{margin:0 0 8px; font-size:13.4px; line-height:1.6}
+.note p:last-child{margin-bottom:0}
+.note code{font-family:var(--mono); font-size:12.4px; background:#fffdf8; padding:1px 5px; border-radius:4px}
+
+.done{background:var(--gold-soft); border:1px solid var(--gold-line); border-left:5px solid var(--gold);
+      border-radius:13px; padding:16px 19px; margin-top:18px; display:none; color:#4a3a16}
+.done.show{display:block}
+.done .dt{font-family:var(--serif); font-size:27px; font-weight:700; color:var(--gold-deep); margin-bottom:6px}
+.done table{border-collapse:collapse; width:100%; margin-top:11px; font-size:13px}
+.done td{padding:5px 8px; border-top:1px solid var(--gold-line)}
+.done td:last-child{text-align:right; font-family:var(--mono); font-size:12.4px}
+
+footer{margin-top:44px; padding-top:18px; border-top:1px solid var(--line);
+       font-size:12px; color:var(--ink-3); line-height:1.6}
+
+@media (max-width:640px){
+  .wrap{padding:22px 13px 60px}
+  h1{font-size:32px}
+  .board{gap:14px}
+  .board .btns{margin-left:0; width:100%}
+  .opt{font-size:13.4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="kick">Course 2.1 · Methods &amp; Statistics II · practice built from the two worked examples</div>
+<h1>100 practice questions</h1>
+<p class="lead">Fifty multiple-choice questions on each worked example, written from the assignments’ own questions — including the SPSS-exam assignments. <b>Every answer comes with an explanation</b>, and the option order is rotated so the correct answer is never parked on the same letter. Pick a set, filter by topic if you want to drill one thing, and answer on paper first where there is arithmetic.</p>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="board">
+  <div><div class="sc" id="scScore">0 / 0</div><div class="scl">Correct</div></div>
+  <div class="barwrap"><div class="bar"><i id="scBar"></i></div>
+    <div class="scl" id="scSub" style="margin-top:7px">Nothing answered yet</div></div>
+  <div class="btns">
+    <button class="btn" id="btnWrong">Show only my mistakes</button>
+    <button class="btn" id="btnReset">↺ Reset this set</button>
+  </div>
+</div>
+
+<div class="filters" id="filters"></div>
+<div id="list"></div>
+<div class="done" id="done"></div>
+
+<div class="note">
+  <div class="nt">⚠️ What I could and could not compute</div>
+  <p><b>Worked Example 2 has real numbers in it.</b> The epitools link in Question 4 fixes the anti-social peer group data at <code>SampleSize=167&amp;Positive=53</code>, so the proportion (0.317), its standard error (0.036), the margin of error (0.071) and the 95% interval (0.247 to 0.388) are all genuinely computed here, and you can check them against your own output.</p>
+  <p><b>The numeric SPSS-exam answers need the data files.</b> Worked Example 1’s four assignments (the 75th percentile, the z-score for id 19, the largest difference score, the SE of the difference scores) and Worked Example 2’s two crosstab percentages all depend on <code>M&amp;S_NL.sav</code> and <code>Youngoffenders_ENG.sav</code>, which I do not have. Those questions therefore test <em>which output to read and which menu produces it</em> — the examinable skill — rather than a number I would have to invent.</p>
+  <p style="margin-bottom:0">Send me the two .sav files and I will compute the real values and add the numeric questions to this set.</p>
+</div>
+
+<footer>
+  Built from <b>Worked Example 1 — Massed or spaced practice?</b> (Kornell &amp; Bjork, 2008, Experiment 1a, and the 2010 EUR replication) and <b>Worked Example 2 — Juvenile delinquents</b> (De Bascule, n = 310).<br>
+  The assignments’ questions and figures are the course’s. The multiple-choice items, the distractors and the explanations are mine — check anything that matters against your own output and the textbook.
+</footer>
+
+</div>
+
+<script>
+/* ============================================================ WORKED EXAMPLE 1
+   Massed or spaced practice? — 50 multiple-choice questions built from the
+   assignment's own questions 1-8 and its four SPSS-exam assignments.        */
+var WE1 = [
+
+/* ---------------------------------------------------- design & variables */
+{t:'Design', q:'Question 2 asks whether Kornell and Bjork’s Experiment 1a is experimental or correlational. Which is it, and why?',
+ o:['Experimental — the researchers manipulated how the paintings were presented and assigned artists to conditions at random',
+    'Correlational — the researchers only measured how well students happened to do',
+    'Experimental — because the study was later replicated by other students',
+    'Correlational — because both variables were measured on the same people'],
+ a:0, x:'The presentation method was <b>manipulated</b> by the researchers, and “the artists assigned to the massed and spaced conditions were determined randomly for each participant”. Manipulation plus randomisation is what makes a study experimental. Measuring both variables on the same people does not make a study correlational — the difference is whether the independent variable was <em>set</em> by the researcher or merely observed.'},
+
+{t:'Design', q:'What is the dependent variable in Experiment 1a?',
+ o:['The number of new paintings correctly attributed to the right artist on the final test',
+    'Whether the artist was studied by massed or spaced practice',
+    'The 12 impressionist painters',
+    'The order of the blocks (MSSMMSSMMSSM)'],
+ a:0, x:'The DV is what is <b>measured as an outcome</b>: how many of the previously unseen paintings each student identified correctly. The presentation method is the IV; the painters and the block order are part of the design, not variables measured on participants.'},
+
+{t:'Design', q:'What is the independent variable, and what are its categories?',
+ o:['Presentation method, with two categories: massed practice and spaced practice',
+    'Test performance, with categories correct and incorrect',
+    'Artist, with twelve categories',
+    'Participant, with as many categories as there were students'],
+ a:0, x:'The IV is the <b>presentation method</b>, and the assignment asks you to state its categories: <b>massed</b> (six paintings by the same artist in a row) and <b>spaced</b> (six paintings by six different artists).'},
+
+{t:'Design', q:'What is the measurement level of the dependent variable?',
+ o:['Scale (ratio) — a count of correct identifications, with a meaningful zero',
+    'Nominal — the answers are either right or wrong',
+    'Ordinal — the scores can be put in rank order',
+    'Interval — there is no absolute zero for test performance'],
+ a:0, x:'The score is a <b>count</b> out of 24. Zero means “none correct”, which is a true zero, so ratios are meaningful — 12 correct really is twice 6 correct. In SPSS this is a <b>Scale</b> variable. Individual answers are right/wrong, but the variable you analyse is the total.'},
+
+{t:'Design', q:'What is the measurement level of the independent variable?',
+ o:['Nominal — massed and spaced are two categories with no order',
+    'Ordinal — spaced is better than massed, so the categories are ordered',
+    'Scale — because presentation time can be measured in seconds',
+    'Interval — the gap between massed and spaced is constant'],
+ a:0, x:'Massed and spaced are simply two <b>different</b> presentation methods. Neither is “more” of anything, so there is no rank order — that makes the variable nominal. Believing one <em>works</em> better does not turn the variable into an ordinal one.'},
+
+{t:'Design', q:'Question 2 asks whether the nominal factor is between-subjects or within-subjects. Which is it here?',
+ o:['Within-subjects — every student learned some artists massed and other artists spaced',
+    'Between-subjects — half the students did massed and the other half did spaced',
+    'Between-subjects, because the artists differed between the two conditions',
+    'Neither — the study has no factor at all'],
+ a:0, x:'Each participant experienced <b>both</b> conditions: six artists massed and six artists spaced. That makes presentation method a <b>within-subjects</b> factor. Getting this right is what makes the rest of the analysis paired rather than independent.'},
+
+{t:'Design', q:'Question 5b asks how you identify the nominal variable “presentation method” in the data set. What is the answer?',
+ o:['It is not a column at all — it is represented by the two score columns, because the design is within-subjects',
+    'It is the first column, idnumber',
+    'It is a string variable containing the words “massed” and “spaced”',
+    'It is the difference score, once you compute it'],
+ a:0, x:'This is the trick in the question. In a <b>within-subjects</b> layout there is no grouping column: the levels of the factor are the <em>columns themselves</em>. A between-subjects design would have one score column plus a grouping variable coded 1/2.'},
+
+{t:'Design', q:'Each student saw 4 new paintings by each of 12 artists on the final test. What is the maximum possible score in each condition?',
+ o:['24 — four paintings for each of the six artists in that condition',
+    '48 — four paintings for each of the twelve artists',
+    '12 — one point per artist',
+    '6 — one point per artist in the condition'],
+ a:0, x:'Six artists per condition × four new paintings each = <b>24</b> per condition, which is exactly what the text says: “they viewed 24 paintings for the massed artists and 24 for the spaced artists.” Knowing the maximum matters when you interpret a mean of, say, 9.'},
+
+/* ---------------------------------------------------- causality */
+{t:'Causality', q:'What causal relationship are Kornell and Bjork investigating (Question 3a)?',
+ o:['Whether the presentation method (massed vs spaced) causes a difference in how well new paintings are classified',
+    'Whether liking impressionist art causes better memory',
+    'Whether being a student causes better pattern recognition',
+    'Whether the number of artists causes the difficulty of the test'],
+ a:0, x:'The claimed cause is the <b>manipulated</b> variable — how the paintings were presented — and the claimed effect is the <b>measured</b> one, identification of previously unseen paintings by those artists.'},
+
+{t:'Causality', q:'Passer (Chapter 5) gives three conditions for demonstrating that X causes Y. Which set is right?',
+ o:['X and Y covary · X precedes Y in time · plausible alternative explanations can be ruled out',
+    'X and Y correlate · the sample is large · the result is significant',
+    'X is manipulated · Y is nominal · the study is replicated',
+    'X and Y are both measured reliably · the test is two-sided · p &lt; .05'],
+ a:0, x:'<b>Covariation, temporal order, and the elimination of alternative explanations.</b> Statistical significance is not one of them: a significant result establishes covariation only, and it is the design — not the p-value — that delivers the other two.'},
+
+{t:'Causality', q:'Which feature of Experiment 1a satisfies the “temporal order” condition?',
+ o:['The presentation method was applied during the study phase, before the final test measured performance',
+    'The artists were impressionists, who painted before the study was run',
+    'The study was published in 2008 and replicated in 2010',
+    'The students were tested twice'],
+ a:0, x:'The manipulation happens <b>first</b> and the outcome is measured <b>afterwards</b>. In an experiment this condition is usually satisfied automatically, which is one of the reasons experiments support causal claims that correlational studies cannot.'},
+
+{t:'Causality', q:'Which feature most directly rules out alternative explanations <em>for the difference between the two conditions</em>?',
+ o:['Randomly assigning which artists went into the massed and spaced conditions, separately for each participant',
+    'Showing 6 paintings by each artist',
+    'Using 12 artists rather than 2',
+    'Testing the students with previously unseen paintings'],
+ a:0, x:'Random assignment of <b>artists</b> to conditions means that any difference in how memorable or distinctive particular painters are gets spread evenly across the two conditions instead of confounding them. Without it, the massed artists might simply have been the easier ones.'},
+
+{t:'Causality', q:'Which of these would be a genuine threat to the causal claim in this experiment?',
+ o:['If all the massed blocks had come first and all the spaced blocks last, so that fatigue coincided with one condition',
+    'If the sample were students rather than the general population',
+    'If the effect were small',
+    'If the test used paintings the students had already seen'],
+ a:0, x:'That is a <b>confound</b>: condition would be perfectly entangled with time-on-task, and you could not tell which produced the difference. Using students limits <em>external</em> validity, not the causal claim; a small effect is still an effect; and re-using seen paintings would damage the measure rather than the causal logic.'},
+
+/* ---------------------------------------------------- counterbalancing */
+{t:'Counterbalancing', q:'The block order was MSSMMSSMMSSM. What does that order achieve?',
+ o:['It spreads massed and spaced blocks evenly across the session, so neither condition is systematically early or late',
+    'It ensures every participant sees the same artist first',
+    'It makes the design between-subjects',
+    'It randomises which paintings are shown'],
+ a:0, x:'This is <b>counterbalancing</b> (Passer, Chapter 8, p. 234): the two conditions alternate in a balanced pattern so that position in the session is not tied to condition. Note it is not random — it is a fixed, balanced sequence.'},
+
+{t:'Counterbalancing', q:'Question 4b asks what problem would have arisen without counterbalancing. Which answer is correct?',
+ o:['Order effects — practice, fatigue or boredom — would be confounded with the presentation method',
+    'The data would have become nominal',
+    'The sample size would have been too small',
+    'The test would have had to be one-sided'],
+ a:0, x:'If one condition always came first, any difference could be the condition <em>or</em> simply “what happens early in a session”. The two explanations would be inseparable — which is the definition of a <b>confound</b>.'},
+
+{t:'Counterbalancing', q:'Question 4c: is counterbalancing used to achieve reliability or validity?',
+ o:['Validity — specifically internal validity, by removing order effects as an alternative explanation',
+    'Reliability, because it makes the measurement more consistent',
+    'Both equally',
+    'Neither — it is only for convenience'],
+ a:0, x:'<b>Validity.</b> Counterbalancing does not make the measure more consistent across repetitions (that would be reliability); it protects the <em>interpretation</em> of the result by stopping order from masquerading as the effect of the manipulation.'},
+
+{t:'Counterbalancing', q:'Besides the block order, what else was counterbalanced or randomised in Experiment 1a?',
+ o:['Which artists were assigned to the massed and which to the spaced condition, determined randomly for each participant',
+    'The number of paintings per artist',
+    'The number of artists in each condition',
+    'The length of the final test'],
+ a:0, x:'“The artists assigned to the massed and spaced conditions were determined randomly <b>for each participant</b>.” Six paintings per artist and six artists per condition were held constant — those are controls, not counterbalancing.'},
+
+{t:'Data', q:'Question 5a asks why replicating an earlier experiment matters. Which reason is the strongest?',
+ o:['A single significant result can be a Type I error or particular to one sample; replication tests whether the effect is real and general',
+    'Replication proves the original researchers were dishonest',
+    'Replication is required before a study can be published',
+    'Replication increases the sample size of the original study'],
+ a:0, x:'With α = .05, one study in twenty finds an effect that is not there. Replication — especially in a different country with different participants, as here — tests both <b>reliability</b> of the finding and its <b>generalisability</b>. It does not merge samples or imply misconduct.'},
+
+{t:'Data', q:'Question 5b asks about missing values and the effective sample size. What does “effective sample size” mean here?',
+ o:['The number of participants who have a valid score on every variable the analysis needs',
+    'The total number of rows in the data file',
+    'The number of paintings each participant saw',
+    'The number of participants in the original 2008 study'],
+ a:0, x:'Rows in the file are not automatically usable cases. A participant missing either the massed or the spaced score contributes <b>no difference score</b>, so they drop out of the paired analysis. That surviving number is the effective N — and it is the N that sets your degrees of freedom.'},
+
+{t:'Data', q:'In SPSS, where do you look first to find out whether a variable has missing values?',
+ o:['Analyze → Descriptive Statistics → Frequencies, and read the Valid and Missing counts in the Statistics table',
+    'Data → Sort Cases',
+    'The Variable View “Label” column',
+    'Transform → Compute Variable'],
+ a:0, x:'Every Frequencies run prints <b>N Valid</b> and <b>N Missing</b> at the top. The same table is what Question 2 of Worked Example 2 leans on for the Percent versus Valid Percent distinction.'},
+
+{t:'Data', q:'Why does the assignment ask you to “examine the raw data” before doing anything else?',
+ o:['To check that you understand every variable, and to catch missing values and impossible scores before they distort the analysis',
+    'Because SPSS will not run until the data have been inspected',
+    'To decide afterwards which hypothesis to test',
+    'To remove participants whose scores you dislike'],
+ a:0, x:'Data screening protects the analysis. What it must <em>not</em> do is shape the hypothesis — that is fixed in advance, and choosing it after seeing the results is exactly the practice the empirical cycle is designed to prevent.'},
+
+{t:'Data', q:'Suppose a score of 26 appeared in the massed column, where 24 is the maximum possible. What is it?',
+ o:['An impossible value — a data-entry error that must be resolved before analysis',
+    'A legitimate bonus score',
+    'A missing value',
+    'Evidence of a very strong effect'],
+ a:0, x:'The maximum is 24 by design, so 26 cannot be real. This is precisely what “examine the raw data” is for: out-of-range values are found by looking at minimum and maximum in <b>Descriptives</b> — and they inflate the mean and the SD if left in.'},
+
+/* ---------------------------------------------------- SPSS procedure */
+{t:'SPSS', q:'Question 5c asks you to compute spaced − massed for every participant. Which SPSS menu does this?',
+ o:['Transform → Compute Variable',
+    'Analyze → Compare Means → Paired-Samples T Test',
+    'Data → Split File',
+    'Analyze → Descriptive Statistics → Crosstabs'],
+ a:0, x:'<b>Transform → Compute Variable</b>, giving the new variable a name and the expression <code>spaced_painters − massed_painters</code>. It adds a new column to the data file, which is what the rest of Question 5 then analyses.'},
+
+{t:'SPSS', q:'Does the order of subtraction matter when you compute the difference score?',
+ o:['Yes — spaced − massed makes a positive mean mean “spaced was better”; reversing it flips the sign of everything',
+    'No — SPSS always reports the absolute difference',
+    'No — the t-test ignores the sign',
+    'Yes — only because SPSS cannot handle negative numbers'],
+ a:0, x:'The arithmetic is symmetric but the <b>interpretation</b> is not. The assignment specifies <em>spaced − massed</em>, so a positive mean difference supports the students’ hypothesis. Reverse it and a supporting result appears as a negative mean, which is how sign errors sneak into conclusions.'},
+
+{t:'SPSS', q:'Which SPSS route gives you a frequency distribution of the difference scores together with the mode, median, mean, SD and variance?',
+ o:['Analyze → Descriptive Statistics → Frequencies → Statistics, ticking the measures you need',
+    'Analyze → Compare Means → One-Way ANOVA',
+    'Graphs → Chart Builder only',
+    'Transform → Recode into Different Variables'],
+ a:0, x:'<b>Frequencies</b> produces the distribution table, and its <em>Statistics</em> sub-dialog offers mode, median, mean, standard deviation, variance, range, percentiles and the standard error of the mean in one go.'},
+
+{t:'SPSS', q:'SPSS-exam assignment A asks for the 75th percentile of the massed-artist score. Where do you get it?',
+ o:['Frequencies → Statistics → Percentile(s), enter 75',
+    'Descriptives → Options → Mean',
+    'Explore → Plots → Histogram',
+    'Compute Variable → PCT(75)'],
+ a:0, x:'The <b>Percentile(s)</b> box in Frequencies → Statistics takes any value you type. (SPSS also offers Quartiles, which gives the 25th, 50th and 75th together — the 75th percentile is the third quartile.) The exam asks for two decimal places, so read it straight from the output rather than rounding early.'},
+
+{t:'SPSS', q:'SPSS-exam assignment B asks for the z-score of one participant’s massed result. What is the quickest way to get z-scores for everybody?',
+ o:['Analyze → Descriptive Statistics → Descriptives, and tick “Save standardized values as variables”',
+    'Transform → Recode into Same Variables',
+    'Analyze → Correlate → Bivariate',
+    'Data → Select Cases'],
+ a:0, x:'That tick box adds a new column named <code>Z</code> plus the original variable name, holding (X − mean) ÷ SD for every case. You then read off the row for id 19. Doing it by hand also works — but SPSS carries more decimals than you will, and the answer is wanted to five places.'},
+
+{t:'SPSS', q:'SPSS-exam assignment C asks for the largest difference score. Which output gives it directly?',
+ o:['Descriptives (or Frequencies → Statistics) with Maximum ticked, run on the difference variable',
+    'The Paired-Samples T Test output',
+    'The Correlations table',
+    'Crosstabs'],
+ a:0, x:'<b>Maximum</b> is a standard option in both Descriptives and Frequencies → Statistics. Note the question asks for the largest <em>difference</em> score, so it must be run on the computed column — not on the massed or spaced column.'},
+
+{t:'SPSS', q:'SPSS-exam assignment D asks for the standard error of the mean of the difference scores. Which is true?',
+ o:['It is S.E. mean in Frequencies → Statistics or Descriptives → Options, and it equals SD ÷ √n',
+    'It is the same as the standard deviation',
+    'It is only available from the Paired-Samples T Test output',
+    'SPSS cannot calculate it'],
+ a:0, x:'Tick <b>S.E. mean</b> and SPSS reports it. The relationship SD ÷ √n is worth remembering: it lets you check the output, and it explains why the SE shrinks as the sample grows while the SD does not.'},
+
+{t:'SPSS', q:'You computed the difference score but the new column is full of dots (system-missing) for several people. What is the most likely reason?',
+ o:['Those participants are missing either the massed or the spaced score, so the subtraction has nothing to work with',
+    'SPSS cannot subtract two Scale variables',
+    'The variable name is too long',
+    'The data file needs to be sorted first'],
+ a:0, x:'Any arithmetic involving a missing value yields a missing result. This is exactly how the <b>effective sample size</b> from Question 5b shows up in practice — and why the df of the eventual t-test may be smaller than the number of rows suggests.'},
+
+/* ---------------------------------------------------- descriptives */
+{t:'Descriptives', q:'Suppose the difference scores come out roughly symmetric and bell-shaped, with mean 2.4, median 2 and mode 2. What does that shape tell you?',
+ o:['Mean, median and mode sit close together, so the mean is a fair summary and the Normal-based test is reasonable',
+    'The distribution is strongly right-skewed',
+    'The data must be nominal',
+    'The sample is too small to describe'],
+ a:0, x:'Question 5d asks you to <b>describe the shape and interpret the statistics</b>. When the three measures of centre coincide, there is no strong skew and no single outlier dragging the mean — which is also the assumption picture the t-test wants to see.'},
+
+{t:'Descriptives', q:'Question 5d asks for the difference between the standard deviation and the standard error of the mean. Which statement is right?',
+ o:['The SD describes how much individual scores vary; the SE describes how much the sample mean would vary across repeated samples',
+    'They are the same thing, reported on different scales',
+    'The SD is for populations and the SE is for samples',
+    'The SE is the square root of the SD'],
+ a:0, x:'The SD is about <b>people</b>; the SE is about <b>means</b>. SE = SD ÷ √n, so the SE always comes out smaller than the SD, and it keeps shrinking with sample size while the SD settles on the population value.'},
+
+{t:'Descriptives', q:'Suppose the difference scores have SD = 4.8 and n = 36. What is the standard error of the mean?',
+ o:['0.80', '4.80', '0.13', '1.33'],
+ a:0, x:'SE = SD ÷ √n = 4.8 ÷ √36 = 4.8 ÷ 6 = <b>0.80</b>. This is the number that goes into the denominator of the t-statistic, which is why the SE — not the SD — decides whether a given mean difference is significant.'},
+
+{t:'Descriptives', q:'Why does the assignment ask for the <em>variance</em> as well as the standard deviation, when one is just the square of the other?',
+ o:['Because the variance is in squared units while the SD is back in the original units, and only the SD is directly interpretable next to the mean',
+    'Because SPSS cannot compute the SD without the variance',
+    'Because the variance is used in the t-test and the SD is not',
+    'Because the variance is always the larger and therefore the safer number'],
+ a:0, x:'“Points squared” means nothing to a reader; “points” does. The variance is the working quantity inside the formulas, and the SD is the one you report — which is exactly why Lecture 1 defines SD as the square root of the variance rather than the other way round.'},
+
+{t:'Descriptives', q:'Suppose SPSS reported the mode of the difference scores as 0 while the mean was 2.4. Which reading is correct?',
+ o:['More participants had exactly equal massed and spaced scores than had any other single difference value',
+    'The average difference is zero',
+    'Half the participants scored higher on spaced',
+    'There is no effect'],
+ a:0, x:'The <b>mode</b> is the most frequent value, nothing more. A mode of 0 with a mean of, say, 2.4 is perfectly possible: many people tie, and those who differ lean towards spaced strongly enough to pull the mean up.'},
+
+/* ---------------------------------------------------- hypothesis test */
+{t:'Hypothesis test', q:'Question 6 asks why a two-sided test is a good idea even though the students’ hypothesis is one-sided. What is the best reason?',
+ o:['A two-sided test can also detect an effect in the unexpected direction, and it is the conventional, more conservative choice',
+    'A two-sided test is easier to compute',
+    'A one-sided test is not available in SPSS',
+    'A two-sided test always gives a smaller p-value'],
+ a:0, x:'If massed practice had turned out <em>better</em>, a one-sided test pointing the other way could not report it. Lecture 1 puts the same rule on slide 46: <b>two-sided is the norm</b> unless a change in the other direction is impossible. Note that “a two-sided test always gives a smaller p-value” is backwards — the two-sided p is the <em>larger</em> one.'},
+
+{t:'Hypothesis test', q:'Which pair of hypotheses matches this study (μ_D = the population mean of spaced − massed)?',
+ o:['H₀: μ_D = 0 versus Hₐ: μ_D ≠ 0',
+    'H₀: μ_D ≠ 0 versus Hₐ: μ_D = 0',
+    'H₀: x̄_D = 0 versus Hₐ: x̄_D ≠ 0',
+    'H₀: μ_spaced = μ_massed versus Hₐ: μ_spaced &gt; μ_massed'],
+ a:0, x:'H₀ always carries the <b>=</b> sign, and both hypotheses are about the <b>population</b> — so x̄ has no place in them. “H₀: μ_spaced = μ_massed versus Hₐ: μ_spaced &gt; μ_massed” is a correct pair of statements but a <em>one-sided</em> alternative, which contradicts the two-sided test the question specifies.'},
+
+{t:'Hypothesis test', q:'Which statistical test does Question 6 call for?',
+ o:['A paired-samples t-test — equivalently, a one-sample t-test on the difference scores against 0',
+    'An independent-samples t-test',
+    'A one-sample z-test',
+    'A chi-square test of independence'],
+ a:0, x:'Same people in both conditions → <b>paired</b>. And σ is not known, it is estimated from the data → <b>t</b>, not z. Running an independent-samples test here would throw away the pairing and usually lose you the effect.'},
+
+{t:'Hypothesis test', q:'Suppose 36 participants have a usable difference score. How many degrees of freedom does the t-test have?',
+ o:['35 — n − 1, where n is the number of difference scores',
+    '36', '70 — 2(n − 1)', '34 — n − 2'],
+ a:0, x:'A paired t-test works on <b>one</b> column of n difference scores, so df = n − 1 = <b>35</b>. The n − 2 and 2(n − 1) forms belong to independent-samples designs, where two separate groups each cost a degree of freedom.'},
+
+{t:'Hypothesis test', q:'Question 6 asks for the critical value at a two-sided α = .05 with df = 35. Which statement is right?',
+ o:['It is about ±2.03 — read from the t-table at df = 35, with .025 in each tail',
+    'It is ±1.96, because α = .05',
+    'It is ±1.645, because the hypothesis is one-sided',
+    'There is no critical value for a t-test'],
+ a:0, x:'t-critical values depend on <b>df</b> and are always a little larger than the matching z. ±1.96 is the z-value you would use only if σ were known and the test were based on the Normal curve; ±1.645 is the one-sided z, which does not apply to a two-sided test.'},
+
+{t:'Hypothesis test', q:'Which assumption does the paired-samples t-test make?',
+ o:['The difference scores are approximately normally distributed in the population (and the pairs are independent of each other)',
+    'The massed and spaced scores are independent of each other',
+    'The variances of the two conditions are equal',
+    'The data are nominal'],
+ a:0, x:'The test lives on the <b>difference scores</b>, so the normality assumption applies to them, not to either raw column. Equality of variances is an assumption of the <em>independent</em>-samples test — and assuming the two columns are independent would contradict the whole design.'},
+
+{t:'Hypothesis test', q:'How would you check that assumption in SPSS?',
+ o:['Make a histogram of the difference scores (Frequencies or Explore) and look at the shape; with a reasonable n, mild departures are tolerable',
+    'Run Levene’s test on the two columns',
+    'Check that all scores are positive',
+    'Run a chi-square goodness-of-fit test on the raw scores'],
+ a:0, x:'Eyeballing the distribution of the <b>difference</b> variable is exactly what Question 5d has already had you do. Levene’s test is for the equality-of-variances assumption in an independent-samples test, which is not what is running here.'},
+
+{t:'Hypothesis test', q:'Question 6 asks you to describe three different ways of deciding whether to reject H₀. Which set is correct?',
+ o:['Compare p with α · compare the observed t with the critical value · check whether the 95% CI for the mean difference contains 0',
+    'Compare the means · compare the SDs · compare the modes',
+    'Look at the histogram · look at the boxplot · look at the scatterplot',
+    'Compare n with 30 · compare SD with SE · compare t with z'],
+ a:0, x:'All three routes are printed in, or derivable from, the same SPSS output, and they always agree: if p &lt; .05 then |t| exceeds the critical value, and the 95% interval for the mean difference excludes 0.'},
+
+{t:'Hypothesis test', q:'Suppose the 95% confidence interval for the mean difference comes out as [0.78, 4.02]. What follows?',
+ o:['0 lies outside the interval, so H₀ is rejected at α = .05 — spaced practice scored higher',
+    '0 lies inside the interval, so H₀ is retained',
+    'The interval says nothing about H₀',
+    'The result is significant only if the interval is symmetric'],
+ a:0, x:'For a <b>difference</b>, the no-effect value is <b>0</b>. An interval running from 0.78 to 4.02 excludes it entirely, so the two-sided test at α = .05 rejects H₀ — and the interval additionally tells you the plausible size of the advantage, which the p-value alone never does.'},
+
+{t:'Hypothesis test', q:'Which line is correctly formatted APA for this result?',
+ o:['t(35) = 3.00, p = .005 (two-tailed), M = 2.40, SD = 4.80',
+    't = 3.00, significant',
+    'T(35) = 3.00, P &lt; 0.05',
+    'p = .005, therefore the hypothesis is proven'],
+ a:0, x:'APA wants the statistic with its <b>df in brackets</b>, the exact p, the tail, and the descriptives that give the result meaning. Statistics are italicised (<em>t</em>, <em>p</em>, <em>M</em>, <em>SD</em>), p is written without a leading zero — and nothing in statistics is ever “proven”.'},
+
+/* ---------------------------------------------------- p-value */
+{t:'p-value', q:'Question 7 asks what the p-value means. Which statement is correct?',
+ o:['The probability of getting a mean difference at least as extreme as this one, if H₀ were true',
+    'The probability that H₀ is true',
+    'The probability that the results are due to chance',
+    'The probability that the study will replicate'],
+ a:0, x:'The p-value is computed <b>assuming H₀ is true</b> — it is a statement about the data given the hypothesis, never about the hypothesis given the data. “The probability that H₀ is true” and “the probability that the results are due to chance” are the two most common misreadings, and they appear on exams precisely because they sound so plausible.'},
+
+{t:'p-value', q:'The output gives p = .005 with α = .05. What is the decision, stated correctly?',
+ o:['Reject H₀ — the data are unlikely under H₀',
+    'Accept Hₐ as proven',
+    'Accept H₀',
+    'Retain H₀, since .004 is a very small number'],
+ a:0, x:'p ≤ α means <b>reject H₀</b>. The wording matters: you never “accept” or “prove” anything, and a small p-value is evidence <em>against</em> H₀, not for it.'},
+
+{t:'p-value', q:'Suppose the same study had produced p = .32. What would the correct conclusion be?',
+ o:['Do not reject H₀ — there is not enough evidence of a difference, which is not the same as showing there is none',
+    'Accept H₀ — the two methods are equally effective',
+    'The study failed and cannot be reported',
+    'Reject H₀ because .32 is bigger than .05'],
+ a:0, x:'“Not significant” is the absence of evidence, not evidence of absence — a small sample can hide a real effect. This is the Type II error from Lecture 1: keeping a false H₀, with probability β.'},
+
+/* ---------------------------------------------------- interpretation */
+{t:'Interpretation', q:'Question 8 asks for a substantive interpretation. Which is a genuine explanation rather than a restatement?',
+ o:['Spaced presentation lets learners compare works by different artists side by side, which highlights what distinguishes each style',
+    'Spaced practice produced a higher mean than massed practice',
+    'The p-value was smaller than .05',
+    'The confidence interval did not contain zero'],
+ a:0, x:'The other three describe the <em>result</em>. A substantive interpretation offers a <b>mechanism</b> — here, the discriminative-contrast account: interleaving invites comparison between artists, and comparison is what teaches a category boundary.'},
+
+{t:'Interpretation', q:'Which is the most defensible criticism of the students’ replication?',
+ o:['The sample was a small group of Dutch psychology students, so generalising to other learners and materials is a stretch',
+    'The study used a within-subjects design',
+    'The researchers used a two-sided test',
+    'The study replicated an existing experiment instead of being original'],
+ a:0, x:'That is a limit on <b>external validity</b> — who and what the finding extends to. The other three are strengths, not weaknesses: the within-subjects design controls individual differences, two-sided is the conservative choice, and replication is the point of the exercise.'}
+
+];
+
+/* ============================================================ WORKED EXAMPLE 2
+   Juvenile delinquents (De Bascule) — 50 multiple-choice questions built from
+   the assignment's own questions 1-6 and its two SPSS-exam assignments.
+   Where numbers appear they come from the assignment itself: the epitools link
+   in Question 4 fixes the anti-social peer group data at 53 of 167.          */
+var WE2 = [
+
+/* ---------------------------------------------------- design & variables */
+{t:'Design', q:'Question 1a asks whether this research is experimental or correlational. Which is it?',
+ o:['Correlational — the researcher compiled background characteristics that already existed; nothing was manipulated',
+    'Experimental — the children were assigned to groups',
+    'Experimental — because there is an independent and a dependent variable',
+    'Correlational — because the sample is large'],
+ a:0, x:'Nobody <b>assigned</b> a child to have depressive symptoms or an anti-social peer group. The researcher recorded characteristics that were already present, which makes this an observational, <b>correlational</b> study — however causal the language of “independent” and “dependent variable” later sounds.'},
+
+{t:'Design', q:'What is the measurement level of “being a member of an anti-social peer group”?',
+ o:['Nominal — two unordered categories, yes and no',
+    'Ordinal — more anti-social peers is worse',
+    'Scale — it can be counted',
+    'Interval — the distance between yes and no is fixed'],
+ a:0, x:'The value label in the data set is {0, no}: it is a <b>dichotomous nominal</b> variable. The same is true of bad school performance, PDD-nos and depressive symptoms — all four of the major variables in this assignment are nominal.'},
+
+{t:'Design', q:'Which of the four major variables has a different measurement level from the others?',
+ o:['None of them — all four are nominal and dichotomous',
+    'Bad school performance, which is ordinal',
+    'Depressive symptoms, which is scale',
+    'PDD-nos, which is ordinal'],
+ a:0, x:'Anti-social peer group, bad school performance, PDD-nos and depressive symptoms are all <b>yes/no</b> variables. That uniformity is what makes the whole assignment about <em>proportions</em> rather than means.'},
+
+{t:'Design', q:'In the variables table, age_first_delict, urban and ses are listed as Ordinal. Why ordinal rather than nominal?',
+ o:['Their categories have a meaningful order — for example urbanisation runs from little urban upwards — but the gaps between categories are not equal',
+    'Because they are numbers',
+    'Because they have more than two categories',
+    'Because they were measured later'],
+ a:0, x:'Order without equal spacing is the definition of <b>ordinal</b>. Having many categories does not by itself create an order — background, with several categories, is still nominal because no country is “more” than another.'},
+
+{t:'Design', q:'RawIQ and nr_sig_others are listed as Scale. What does that permit that Ordinal does not?',
+ o:['Computing a mean and a standard deviation, and interpreting distances between values',
+    'Counting how often each value occurs',
+    'Putting the values in order',
+    'Making a bar chart'],
+ a:0, x:'Frequencies, ordering and bar charts work at lower levels too. The <b>mean and SD</b> — and any sensible reading of the distance between two values — require at least interval level, which is what SPSS calls Scale.'},
+
+{t:'Design', q:'Question 1a asks whether the nominal variables are between-subjects or within-subjects factors. What is the right answer here?',
+ o:['Neither applies in the usual sense — these are measured characteristics, not manipulated factors; if you must label them, they distinguish between different children, so between-subjects',
+    'Within-subjects, because each child has a value on every variable',
+    'Within-subjects, because the same researcher collected all the data',
+    'Between-subjects, because the children were randomly assigned'],
+ a:0, x:'The between/within distinction belongs to <b>experiments</b>, where a factor is manipulated. Here the groups are formed by pre-existing characteristics, and each child falls in exactly one group per variable — so the comparison is between different children, and there was certainly no random assignment.'},
+
+{t:'Design', q:'In the research question “does being a member of an anti-social peer group lead to bad school performance?”, which variable plays which role?',
+ o:['Anti-social peer group is the independent (explanatory) variable; bad school performance is the dependent (response) variable',
+    'Bad school performance is the independent variable; anti-social peer group is the dependent variable',
+    'Both are independent variables',
+    'Neither can be labelled, because the study is correlational'],
+ a:0, x:'The assignment states it: “the anti-social peer group acts as the <b>independent variable</b>, and school performance acts as the <b>dependent variable</b>.” Correlational data still have an explanatory and a response variable — what they lack is the licence to call the relationship causal.'},
+
+{t:'Design', q:'Why is the number of children in the data file (310) not necessarily the n you use in a calculation?',
+ o:['Individual variables have missing values, so each analysis has its own valid n — for the anti-social peer variable it is 167',
+    'Because 310 includes the researchers',
+    'Because SPSS caps analyses at 200 cases',
+    'Because only children with a delict are counted'],
+ a:0, x:'The epitools link in Question 4 fixes the anti-social peer group figures at <b>53 positive out of 167</b> — far fewer than 310. Every proportion, standard error and interval in this assignment must use the valid n for <em>that</em> variable.'},
+
+{t:'Design', q:'Which phrase in the introduction signals that the study cannot establish causality?',
+ o:['“…compiled a large number of background characteristics found in these children…” — the characteristics were recorded, not created',
+    '“…310 children…” — the sample is too small',
+    '“…an organisation in Amsterdam…” — a single site',
+    '“…diagnoses, treats and assesses…” — the children received treatment'],
+ a:0, x:'Compiling existing characteristics is <b>observation</b>. The other three affect generalisability or add noise, but it is the absence of manipulation and random assignment that blocks the causal claim.'},
+
+/* ---------------------------------------------------- validity */
+{t:'Validity', q:'What does internal validity mean?',
+ o:['The extent to which the study supports the claim that the relationship found is genuine and not produced by some other factor',
+    'The extent to which the results generalise to other people and settings',
+    'The consistency of the measurement across repetitions',
+    'Whether the sample is large enough'],
+ a:0, x:'Internal validity is about the <b>inside</b> of the study — whether the link you observed is real or an artefact of confounds, selection or measurement. Generalisation is external validity; consistency is reliability; sample size is power.'},
+
+{t:'Validity', q:'What does external validity mean?',
+ o:['The extent to which the findings generalise beyond this sample, setting and measures',
+    'The extent to which alternative explanations have been ruled out',
+    'Whether the statistical test was the right one',
+    'Whether the data were entered correctly'],
+ a:0, x:'External validity asks <b>who else does this apply to?</b> The wrong test is a statistical-conclusion problem, and data entry is a reliability and data-quality problem — related concerns, but different ones.'},
+
+{t:'Validity', q:'Which is a plausible threat to the INTERNAL validity of this study (Question 1b)?',
+ o:['A third variable such as family circumstances could produce both the anti-social peer group and the poor school performance',
+    'The children all come from one Amsterdam clinic',
+    'The sample contains 310 children',
+    'The variables are dichotomous'],
+ a:0, x:'That is the <b>third-variable problem</b>, and the data set is full of candidates — deviant family situation, parental psychiatric problems, SES. Coming from one clinic is a threat to <em>external</em> validity, which the next question asks about separately.'},
+
+{t:'Validity', q:'Which is a plausible threat to the EXTERNAL validity of this study?',
+ o:['The children are patients at one specialised clinic, so they are unlikely to represent children in general',
+    'Bad school performance was recorded as yes/no',
+    'The researcher did not manipulate the variables',
+    'Some variables have missing values'],
+ a:0, x:'A clinical sample from <b>one institution</b> is selected in ways the general population is not. Coarse measurement, no manipulation and missing data all weaken the study, but they are problems of measurement, of causal inference and of precision — none of them is about who the results extend to.'},
+
+{t:'Validity', q:'A classmate writes: “Because the study is correlational, it has low internal validity and high external validity.” What is wrong?',
+ o:['The two are not a trade-off that follows automatically — a correlational study can also have poor external validity, as this clinical sample does',
+    'Nothing — correlational studies always generalise better',
+    'Correlational studies have no validity of any kind',
+    'The two terms mean the same thing'],
+ a:0, x:'There is a <em>tendency</em> for tightly controlled lab experiments to buy internal validity at some cost to realism, but it is not a law — and it certainly does not run backwards. This study is weak on <b>both</b>: no manipulation, and a highly selected sample.'},
+
+/* ---------------------------------------------------- hypotheses */
+{t:'Hypotheses', q:'Question 1c asks for the null hypothesis for “does the proportion of children with bad school performance differ between those with and without depressive symptoms?” Which is right?',
+ o:['H₀: p₁ = p₂ — the proportion with bad school performance is the same in both groups',
+    'H₀: p₁ ≠ p₂',
+    'H₀: p̂₁ = p̂₂',
+    'H₀: there is a relationship between depression and school performance'],
+ a:0, x:'H₀ is always the <b>no-difference</b> statement and always carries the = sign. And it is about the <b>population</b> proportions p, not the sample proportions p̂ — writing p̂ in a hypothesis is wrong before you start.'},
+
+{t:'Hypotheses', q:'Written as a difference, the same null hypothesis becomes:',
+ o:['H₀: p₁ − p₂ = 0',
+    'H₀: p₁ − p₂ ≠ 0',
+    'H₀: p₁ − p₂ = 1',
+    'H₀: p₁ ÷ p₂ = 0'],
+ a:0, x:'For a <b>difference</b>, the no-effect value is <b>0</b>. For a <b>ratio</b> such as relative risk it is <b>1</b> — a distinction Question 6 will turn on, and one that costs marks every year.'},
+
+{t:'Hypotheses', q:'Which of these is a well-formed research question for this data set, in the style the assignment asks you to invent?',
+ o:['Does the proportion of children with substance use differ between those with and without an anti-social peer group?',
+    'Do anti-social peer groups cause substance use?',
+    'What is the average IQ of the children?',
+    'Is substance use bad for children?'],
+ a:0, x:'It names <b>two categorical variables</b> and asks whether a proportion differs between two groups — exactly what a two-proportion procedure can answer. “Do anti-social peer groups cause substance use?” asserts causality the design cannot deliver; “what is the average IQ?” is descriptive; “is substance use bad for children?” is an opinion.'},
+
+{t:'Hypotheses', q:'Why does the assignment ask you to state your own expectation about the result before analysing?',
+ o:['Because a prediction fixed in advance is what makes the test a test rather than a description of whatever turned up',
+    'Because SPSS needs the expected direction as input',
+    'Because it changes the p-value',
+    'Because the hypothesis must be confirmed to pass the assignment'],
+ a:0, x:'This is the empirical cycle: prediction <b>before</b> data. An expectation formed after seeing the output is unfalsifiable — and it is not supposed to be confirmed, only tested.'},
+
+/* ---------------------------------------------------- frequencies */
+{t:'Frequencies', q:'Question 2a asks whether you should read Percent or Valid Percent. Which, and why?',
+ o:['Valid Percent — it excludes the missing cases, so it describes the children for whom the variable was actually recorded',
+    'Percent — it uses all 310 children, which is the true sample',
+    'Either — they are always identical',
+    'Percent, because it is listed first'],
+ a:0, x:'<b>Percent</b> divides by every row in the file, counting missing cases in the denominator and so understating the proportion. <b>Valid Percent</b> divides by the cases with a real value. They are identical only when nothing is missing — which is not the case here.'},
+
+{t:'Frequencies', q:'The anti-social peer group variable has 53 children coded “yes” out of 167 valid cases. What is the Valid Percent for “yes”?',
+ o:['31.7%', '17.1%', '53.0%', '24.7%'],
+ a:0, x:'53 ÷ 167 = 0.3174 = <b>31.7%</b>. The 17.1% is what you would get by dividing by all 310 children — which is the Percent column, and the mistake the question is designed to catch.'},
+
+{t:'Frequencies', q:'What would the Percent column show for the same variable if the file holds 310 children?',
+ o:['About 17.1%, because 53 is divided by 310 rather than by 167',
+    'The same 31.7%',
+    '53%',
+    'It cannot be calculated'],
+ a:0, x:'53 ÷ 310 = 17.1%. The gap between 17.1% and 31.7% is the whole point of Question 2 — and it is not a rounding difference but a <b>different question being answered</b>.'},
+
+{t:'Frequencies', q:'Question 2e asks what Cumulative Percent means. Which is correct?',
+ o:['The running total of the valid percentages, category by category, ending at 100%',
+    'The percentage of missing values so far',
+    'The percentage of the total file covered by this variable',
+    'The average percentage across categories'],
+ a:0, x:'It accumulates as you go down the table: category one, then one plus two, and so on to <b>100%</b>. Each line answers “what share of cases fall in this category <em>or any earlier one</em>?”'},
+
+{t:'Frequencies', q:'Question 2e also asks whether Cumulative Percent is more interesting for nominal or for ordinal variables with three or more categories. What is the answer?',
+ o:['For ordinal variables — “this category or lower” is meaningful only when the categories have an order',
+    'For nominal variables, because there are more of them',
+    'Equally interesting for both',
+    'For neither — it is never useful'],
+ a:0, x:'“<b>Ordinal</b>” is the point. For SES it is meaningful to say what share are low or middle. For background — Dutch, Moroccan, Turkish — the running total depends only on the arbitrary order SPSS printed them in, and means nothing.'},
+
+{t:'Frequencies', q:'For a dichotomous variable, how many rows does the Cumulative Percent column really tell you anything new in?',
+ o:['Effectively none — the first row repeats the valid percent and the second is 100% by definition',
+    'Both rows',
+    'Three rows',
+    'It depends on the sample size'],
+ a:0, x:'With two categories the cumulative column carries no extra information at all. That is why the assignment pushes you towards variables with <b>three or more</b> ordered categories before the idea becomes useful.'},
+
+{t:'Frequencies', q:'Which SPSS route does the assignment give for Question 2?',
+ o:['Analyze → Descriptive Statistics → Frequencies, then Statistics for the mean and S.E. mean, then Charts for a bar or pie chart',
+    'Analyze → Compare Means → One-Way ANOVA',
+    'Analyze → Descriptive Statistics → Crosstabs',
+    'Graphs → Legacy Dialogs → Scatter'],
+ a:0, x:'The box in the assignment spells it out. <b>Crosstabs</b> arrives later, in Question 5, once two variables have to be examined together — Question 2 is still one variable at a time.'},
+
+{t:'Frequencies', q:'A bar chart and a pie chart both display these frequencies. Which is generally the better choice for comparing categories?',
+ o:['The bar chart — lengths on a common baseline are easier to compare than angles',
+    'The pie chart, because it shows parts of a whole',
+    'Neither — only tables should be used for nominal data',
+    'The pie chart, because it always sums to 100%'],
+ a:0, x:'A pie chart makes the share-of-whole idea vivid, but people read <b>lengths</b> far more accurately than <b>angles</b>. With only two categories either works; with several, the bar chart wins.'},
+
+/* ---------------------------------------------------- mean of a dichotomy & SE */
+{t:'Proportions', q:'Question 3a asks what the mean of a dichotomous variable means. If the variable is coded 0 = no and 1 = yes and SPSS reports a mean of 0.317, what is it?',
+ o:['The proportion of children coded 1 — 31.7% are in an anti-social peer group',
+    'The average number of anti-social peers per child',
+    'A meaningless number, because the variable is nominal',
+    'The midpoint between the two categories'],
+ a:0, x:'With 0/1 coding the mean <em>is</em> the proportion — add up the 1s and divide by n, which is exactly what a proportion is. This is why the assignment tells you to compare the mean in the Statistics table with the frequency table: they carry the same information.'},
+
+{t:'Proportions', q:'Why does that trick only work with 0/1 coding?',
+ o:['Because the sum of the values then equals the number of “yes” cases; with 1/2 coding the mean would be 1 + the proportion',
+    'Because SPSS refuses other codes',
+    'Because 0 and 1 are the only valid nominal codes',
+    'It works with any coding at all'],
+ a:0, x:'With 1 = no and 2 = yes the same data would give a mean of 1.317 — still interpretable, but no longer the proportion. Check the value labels before you read a dichotomous mean as a proportion.'},
+
+{t:'Proportions', q:'Question 3b gives the formula SE = √(p(1−p)/n). With p = 0.3174 and n = 167, what is the standard error?',
+ o:['0.036', '0.317', '0.465', '0.003'],
+ a:0, x:'p(1−p) = 0.3174 × 0.6826 = 0.2166; divided by 167 gives 0.001297; the square root is <b>0.036</b>. 0.003 is what you get by taking the square root of p(1−p) first and then dividing by <b>n</b> instead of <b>√n</b> (0.4655 ÷ 167 = 0.0028); 0.465 is √(p(1−p)) with the division left out altogether.'},
+
+{t:'Proportions', q:'The assignment calls this “cool” because for a dichotomous variable the SE needs only p and n. Why is that?',
+ o:['Because for a 0/1 variable the spread is completely determined by the proportion — there is no separate SD to estimate',
+    'Because dichotomous variables have no variability',
+    'Because SPSS computes it automatically and continuous variables have to be done by hand',
+    'Because the sample size does not matter'],
+ a:0, x:'Once you know what fraction are 1s, you know everything about the spread: the variance of a 0/1 variable is exactly p(1−p). For a continuous variable you would first have to compute deviations, square them and sum them — a great deal more work for the same standard error.'},
+
+{t:'Proportions', q:'At which value of p is the standard error of a proportion at its largest, for a fixed n?',
+ o:['p = 0.5', 'p = 0', 'p = 1', 'p = 0.25'],
+ a:0, x:'p(1−p) peaks at <b>0.5 × 0.5 = 0.25</b>. This is exactly why the sample-size formula in Lecture 2 uses p* = 0.5 when no guess is available — it is the worst case, so it is the safe one.'},
+
+{t:'Proportions', q:'If the valid n for this variable had been 668 instead of 167 — four times as many — with the same p, what would the SE be?',
+ o:['About 0.018 — half of 0.036, because the SE divides by √n',
+    'About 0.009 — a quarter of 0.036',
+    'Still about 0.036',
+    'About 0.072'],
+ a:0, x:'√4 = 2, so four times the children halves the standard error. Notice what that does <em>not</em> do: it does not change the proportion itself, only how precisely you know it.'},
+
+{t:'Proportions', q:'What does the standard error of a proportion actually describe?',
+ o:['How much the sample proportion would bounce around if the study were repeated many times on fresh samples',
+    'How much individual children differ from each other',
+    'How many children are missing',
+    'How far the proportion is from 0.5'],
+ a:0, x:'Like every standard error, it describes the spread of a <b>statistic across repeated samples</b>, not the spread of individuals. It is the engine of §8.1 in Lecture 2 — and it is what the margin of error is built from.'},
+
+/* ---------------------------------------------------- confidence interval */
+{t:'Confidence interval', q:'Question 3c asks for the margin of error at 95% confidence, given SE = 0.036. What is it?',
+ o:['0.071 — that is 1.96 × 0.036',
+    '0.036 — the margin of error is the standard error',
+    '0.059 — that is 1.645 × 0.036',
+    '0.018 — that is half the standard error'],
+ a:0, x:'m = z* × SE, and for <b>95%</b> confidence z* = <b>1.96</b>, giving 0.0706. The 1.645 belongs to 90% confidence. The slip to avoid is grabbing the z that cuts off α = 5% in <em>one</em> tail (1.645) instead of the z* that leaves 2.5% in <em>each</em> tail — for 95% confidence you always want 1.96.'},
+
+{t:'Confidence interval', q:'Which z* goes with which confidence level, as used throughout Lecture 2?',
+ o:['80% → 1.28 · 90% → 1.645 · 95% → 1.96',
+    '80% → 1.96 · 90% → 1.645 · 95% → 1.28',
+    '90% → 1.96 · 95% → 2.58 · 99% → 3.00',
+    'All levels use 1.96'],
+ a:0, x:'Worth knowing cold, because these three appear in every interval question in the course. Higher confidence means a bigger z*, which means a <b>wider</b> interval — certainty is paid for in precision.'},
+
+{t:'Confidence interval', q:'With p̂ = 0.3174 and m = 0.0706, what is the 95% confidence interval for the proportion of children in an anti-social peer group?',
+ o:['0.247 to 0.388 — roughly 25% to 39%',
+    '0.281 to 0.353',
+    '0.317 to 0.388',
+    '0.246 to 0.317'],
+ a:0, x:'0.3174 − 0.0706 = <b>0.2468</b> and 0.3174 + 0.0706 = <b>0.3880</b>, which is what the epitools page prints too (0.24677 to 0.38796). An interval is always <b>estimate ± margin of error</b>, so it sits symmetrically around the sample proportion — “0.317 to 0.388” and “0.246 to 0.317” each keep only one half of it.'},
+
+{t:'Confidence interval', q:'Question 3d asks you to explain what the confidence interval means. Which statement is correct?',
+ o:['If the study were repeated many times, about 95% of the intervals built this way would contain the true population proportion',
+    'There is a 95% probability that the true proportion lies between 0.247 and 0.388',
+    '95% of the children fall between 0.247 and 0.388',
+    'The proportion will change by no more than 7 points in a new sample'],
+ a:0, x:'The confidence attaches to the <b>method</b>, not to this one interval. The true proportion is a fixed number that either is or is not inside — it is the interval that varies from sample to sample. “There is a 95% probability that the true proportion lies between 0.247 and 0.388” is the classic wrong answer that exams offer every time.'},
+
+{t:'Confidence interval', q:'What would a 99% confidence interval for the same data look like compared with the 95% one?',
+ o:['Wider — a larger z* is needed to be more confident',
+    'Narrower — more confidence means more precision',
+    'Identical — the data have not changed',
+    'Shifted upwards but the same width'],
+ a:0, x:'More confidence is bought with a <b>wider</b> net. Only more data narrows an interval without giving up confidence, which is precisely the trade the sample-size formula makes explicit.'},
+
+{t:'Confidence interval', q:'Question 4b asks for the conditions under which the normal approximation for a proportion can be used. Which is the relevant one from Lecture 2?',
+ o:['A random sample, and enough successes and failures — the lecture states this as at least 10 of each on slide 21',
+    'A sample of at least 100 children',
+    'A proportion close to 0.5',
+    'Normally distributed data'],
+ a:0, x:'With 53 successes and 114 failures this sample passes comfortably. The raw data are 0s and 1s and could not be normal themselves — the approximation is about the <b>sampling distribution of p̂</b>, which is a different thing entirely.'},
+
+{t:'Confidence interval', q:'Question 4a sends you to a website offering several kinds of interval. Which one reproduces the calculation you did by hand?',
+ o:['The normal approximation (Wald) interval',
+    'The Wilson score interval',
+    'The exact (Clopper-Pearson) interval',
+    'The Jeffreys interval'],
+ a:0, x:'p̂ ± z*√(p̂(1−p̂)/n) is the <b>normal approximation</b>, also called the Wald interval. The others correct for its known weakness in small samples or extreme proportions and will give slightly different endpoints — which is exactly what the question wants you to notice.'},
+
+{t:'Confidence interval', q:'Why does the assignment say you cannot easily get this interval from SPSS?',
+ o:['SPSS has no straightforward menu for a confidence interval around a single proportion, so you compute it from p̂ and n by hand',
+    'SPSS cannot handle dichotomous variables',
+    'The interval requires the raw IQ scores',
+    'SPSS only produces intervals for 99% confidence'],
+ a:0, x:'SPSS is generous with intervals for <em>means</em> and stingy with intervals for <em>proportions</em>. Since the ingredients are only p̂ and n, doing it by hand costs one line — which is why the course teaches it that way.'},
+
+/* ---------------------------------------------------- crosstabs & difference */
+{t:'Crosstabs', q:'Following Moore, McCabe &amp; Craig, where do the two variables go in an SPSS crosstab?',
+ o:['The explanatory (independent) variable in the columns, the response (dependent) variable in the rows',
+    'The explanatory variable in the rows, the response variable in the columns',
+    'Either way — it makes no difference',
+    'Both in the rows'],
+ a:0, x:'The assignment states the convention explicitly. It matters because it determines which set of percentages compares the groups — get the layout wrong and you will read the wrong percentage out of the right table.'},
+
+{t:'Crosstabs', q:'With the anti-social peer group in the columns and school performance in the rows, which percentages do you need to compare the two groups?',
+ o:['Column percentages — they give the rate of bad school performance within each peer-group category',
+    'Row percentages',
+    'Total percentages',
+    'Expected counts'],
+ a:0, x:'You want “of the children <em>with</em> an anti-social peer group, what share perform badly?” — conditioning on the column variable, which means <b>column percentages</b>. Those two column percentages are the p̂₁ and p̂₂ whose difference D you then compute.'},
+
+{t:'Crosstabs', q:'SPSS-exam assignment A asks: within the children WITHOUT an anti-social peer group, what percentage do NOT show bad school performance? Which cell percentage is that?',
+ o:['A column percentage in the “no anti-social peers” column, on the “no bad performance” row',
+    'A row percentage on the “no bad performance” row',
+    'The total percentage of that cell',
+    'The expected count of that cell'],
+ a:0, x:'“Within the children without an anti-social peer group” fixes the <b>column</b>, so the denominator is that column’s total — a column percentage. The numeric answer needs the data file, but knowing <em>which</em> percentage to read is the examinable skill.'},
+
+{t:'Crosstabs', q:'SPSS-exam assignment B asks: within the children showing bad school performance, what percentage have an anti-social peer group? Which percentage now?',
+ o:['A row percentage — the condition is now on school performance, which sits in the rows',
+    'The same column percentage as in assignment A',
+    'The total percentage',
+    'It cannot be obtained from a crosstab'],
+ a:0, x:'The conditioning variable has <b>swapped</b>, so the denominator swaps with it. This pair of questions exists to test exactly that: read the phrase “within the children who…” and it tells you which total to divide by.'},
+
+{t:'Crosstabs', q:'Question 5 asks for the standard error of the difference D between two proportions. Which formula applies?',
+ o:['SE = √( p̂₁(1−p̂₁)/n₁ + p̂₂(1−p̂₂)/n₂ ) — each group contributes its own term',
+    'SE = √( p̂(1−p̂)(1/n₁ + 1/n₂) ) with a pooled p̂',
+    'SE = √( p̂(1−p̂)/n ) using the overall proportion',
+    'SE = SD ÷ √n'],
+ a:0, x:'For a <b>confidence interval</b> around a difference, the two groups are kept separate — the unpooled form. The pooled version belongs to the <em>significance test</em> for two proportions, and mixing the two up is the classic §8.2 error.'},
+
+{t:'Crosstabs', q:'The assignment tests H₀ using the 95% confidence interval for D rather than a z-test. How do you reach the decision?',
+ o:['If the interval for D contains 0, do not reject H₀; if it excludes 0, reject H₀ at α = .05',
+    'If the interval contains 1, reject H₀',
+    'If the interval is wider than 0.1, reject H₀',
+    'The interval cannot be used to test a hypothesis'],
+ a:0, x:'Zero is the no-difference value, so an interval that spans it leaves “no difference” plausible. A 95% interval and a two-sided test at α = .05 always agree — and the interval gives you the plausible <b>size</b> of the difference as a bonus.'},
+
+/* ---------------------------------------------------- relative risk */
+{t:'Relative risk', q:'Question 6 asks for the relative risk of bad school performance. How is RR computed?',
+ o:['The proportion with bad performance in one group divided by the proportion in the other group',
+    'The difference between the two proportions',
+    'The larger proportion minus the smaller one, divided by the larger',
+    'The odds in one group divided by the odds in the other'],
+ a:0, x:'RR is a <b>ratio of two proportions</b>. Subtracting them gives D, which the previous question handled; dividing <em>odds</em> rather than proportions gives the odds ratio, a different statistic that this course does not use here.'},
+
+{t:'Relative risk', q:'The assignment asks you to compute both possible RRs — anti-social versus not, and not versus anti-social. What is the relationship between them?',
+ o:['Each is the reciprocal of the other, so an RR of 2.0 one way is 0.5 the other way',
+    'They are equal',
+    'They add up to 1',
+    'They differ by the value of D'],
+ a:0, x:'Swapping numerator and denominator inverts the ratio. Both are correct statements of the same finding — which is why the assignment asks you to write down <b>both</b> values and interpret them, rather than quoting one as though it were the answer.'},
+
+{t:'Relative risk', q:'A relative risk of exactly 1 means what?',
+ o:['The two groups have the same proportion — the “no difference” value for a ratio',
+    'The two proportions differ by 1 percentage point',
+    'One group has 100% and the other 0%',
+    'The result is significant'],
+ a:0, x:'For a <b>difference</b> the no-effect value is 0; for a <b>ratio</b> it is <b>1</b>. And beware the presentation trap from Lecture 2: 2% against 1% is still “twice the risk”, so a dramatic-sounding ratio can rest on two tiny proportions. Quote D alongside it.'}
+
+];
+
+
+(function(){
+'use strict';
+
+var SETS = [
+  {k:'we1', name:'Worked Example 1', sub:'Massed or spaced practice? · 50 questions', data:WE1},
+  {k:'we2', name:'Worked Example 2', sub:'Juvenile delinquents · 50 questions', data:WE2}
+];
+
+var LET = ['A','B','C','D'];
+var cur = 0;                       // which set is showing
+var filter = null;                 // which topic, null = all
+var onlyWrong = false;
+var state = {};                    // per set: {answered:{}, correct:{}}
+
+SETS.forEach(function(s){ state[s.k] = {answered:{}, correct:{}}; });
+
+var tabs = document.getElementById('tabs');
+var filters = document.getElementById('filters');
+var list = document.getElementById('list');
+var done = document.getElementById('done');
+
+function drawTabs(){
+  tabs.innerHTML = '';
+  SETS.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.className = 'tab' + (i === cur ? ' on' : '');
+    b.innerHTML = s.name + '<small>' + s.sub + '</small>';
+    b.addEventListener('click', function(){ cur = i; filter = null; onlyWrong = false; render(); });
+    tabs.appendChild(b);
+  });
+}
+
+function topics(){
+  var t = [], seen = {};
+  SETS[cur].data.forEach(function(q){
+    if (!seen[q.t]) { seen[q.t] = 0; t.push(q.t); }
+    seen[q.t]++;
+  });
+  return t.map(function(name){ return {name: name, n: seen[name]}; });
+}
+
+function drawFilters(){
+  filters.innerHTML = '';
+  var all = document.createElement('button');
+  all.className = 'chip' + (filter === null ? ' on' : '');
+  all.innerHTML = 'All <b>' + SETS[cur].data.length + '</b>';
+  all.addEventListener('click', function(){ filter = null; render(); });
+  filters.appendChild(all);
+  topics().forEach(function(t){
+    var c = document.createElement('button');
+    c.className = 'chip' + (filter === t.name ? ' on' : '');
+    c.innerHTML = t.name + ' <b>' + t.n + '</b>';
+    c.addEventListener('click', function(){ filter = (filter === t.name ? null : t.name); render(); });
+    filters.appendChild(c);
+  });
+}
+
+function score(){
+  var st = state[SETS[cur].k];
+  var a = Object.keys(st.answered).length;
+  var c = 0;
+  Object.keys(st.correct).forEach(function(k){ if (st.correct[k]) c++; });
+  return {answered: a, correct: c, total: SETS[cur].data.length};
+}
+
+function drawBoard(){
+  var s = score();
+  document.getElementById('scScore').textContent = s.correct + ' / ' + s.answered;
+  document.getElementById('scBar').style.width =
+    (s.total ? Math.round(100 * s.answered / s.total) : 0) + '%';
+  document.getElementById('scSub').textContent =
+    s.answered === 0 ? 'Nothing answered yet'
+      : s.answered + ' of ' + s.total + ' answered · ' +
+        (s.answered ? Math.round(100 * s.correct / s.answered) : 0) + '% right so far';
+  document.getElementById('btnWrong').classList.toggle('on', onlyWrong);
+
+  if (s.answered === s.total && s.total) {
+    var st = state[SETS[cur].k];
+    var per = {};
+    SETS[cur].data.forEach(function(q, i){
+      if (!per[q.t]) per[q.t] = [0, 0];
+      per[q.t][1]++;
+      if (st.correct[i]) per[q.t][0]++;
+    });
+    var rows = Object.keys(per).map(function(t){
+      return '<tr><td>' + t + '</td><td>' + per[t][0] + ' / ' + per[t][1] + '</td></tr>';
+    }).join('');
+    done.innerHTML = '<div class="dt">' + s.correct + ' out of ' + s.total + '</div>'
+      + '<div>All done for ' + SETS[cur].name + '. Where the marks went:</div>'
+      + '<table>' + rows + '</table>';
+    done.classList.add('show');
+  } else {
+    done.classList.remove('show');
+  }
+}
+
+function drawList(){
+  var st = state[SETS[cur].k];
+  list.innerHTML = '';
+  SETS[cur].data.forEach(function(m, i){
+    if (filter && m.t !== filter) return;
+    if (onlyWrong && !(st.answered[i] !== undefined && !st.correct[i])) return;
+
+    var d = document.createElement('div');
+    d.className = 'q';
+
+    /* rotate the options so the right answer is not always in the same place */
+    var rot = i % m.o.length;
+    var order = m.o.map(function(_, k){ return (k + m.o.length - rot) % m.o.length; });
+    var ans = order.indexOf(m.a);
+
+    var opts = '';
+    order.forEach(function(src, k){
+      opts += '<button class="opt" data-k="' + k + '"><span class="ol">' + LET[k] + '</span>'
+            + '<span>' + m.o[src] + '</span></button>';
+    });
+
+    d.innerHTML = '<div class="qh"><span class="qn">Q' + (i + 1) + ' of ' + SETS[cur].data.length + '</span>'
+                + '<span class="qt">' + m.t + '</span></div>'
+                + '<div class="qq">' + m.q + '</div>'
+                + '<div class="opts">' + opts + '</div>'
+                + '<div class="expl"><div class="el">Why</div>' + m.x + '</div>';
+
+    var btns = [].slice.call(d.querySelectorAll('.opt'));
+    function settle(picked){
+      btns.forEach(function(x, j){
+        x.disabled = true;
+        if (j === ans) x.classList.add('correct');
+      });
+      if (picked !== null && picked !== ans) btns[picked].classList.add('wrong');
+      d.querySelector('.expl').classList.add('show');
+    }
+    if (st.answered[i] !== undefined) {
+      settle(st.answered[i] === -1 ? null : st.answered[i]);
+    } else {
+      btns.forEach(function(b){
+        b.addEventListener('click', function(){
+          var k = +b.dataset.k;
+          st.answered[i] = k;
+          st.correct[i] = (k === ans);
+          settle(k);
+          drawBoard();
+        });
+      });
+    }
+    list.appendChild(d);
+  });
+
+  if (!list.children.length) {
+    list.innerHTML = '<div class="q"><div class="qq" style="margin:0">Nothing to show here — '
+      + (onlyWrong ? 'no mistakes in this selection yet.' : 'try another topic.') + '</div></div>';
+  }
+}
+
+function render(){ drawTabs(); drawFilters(); drawList(); drawBoard(); }
+
+document.getElementById('btnReset').addEventListener('click', function(){
+  state[SETS[cur].k] = {answered:{}, correct:{}};
+  onlyWrong = false;
+  render();
+});
+document.getElementById('btnWrong').addEventListener('click', function(){
+  onlyWrong = !onlyWrong;
+  render();
+});
+
+render();
+})();
+</script>
+</body>
+</html>
